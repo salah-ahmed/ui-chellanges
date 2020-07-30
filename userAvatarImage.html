@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Avatar</title>
+</head>
+
+<body>
+
+    <style>
+        .avatar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.7rem;
+        }
+
+        .avatar__image {
+            background: cyan;
+            width: 50px;
+            height: 50px;
+            border-radius: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar__text {
+            margin-left: .75rem;
+        }
+    </style>
+
+    <div id="app" style="width:400px; padding:1rem;margin: 4rem auto;"></div>
+
+
+    <script>
+        const users = [
+            { name: 'John Doe', image: 'https://www.w3schools.com/w3images/404.png' },
+            { name: 'Dos John', image: 'https://www.w3schools.com/howto/img_avatar.png' },
+            { name: 'Jane Doe', image: 'https://www.w3schools.com/howto/img_avatar2.png' },
+        ]
+
+        const app = document.getElementById('app')
+
+        function generateUserAvatar({ name, image }) {
+            const avatar = document.createElement('div')
+            avatar.classList.add('avatar')
+
+
+            const avatarImage = document.createElement('img')
+            avatarImage.classList.add('avatar__image')
+            avatarImage.src = image
+            avatarImage.alt = name
+
+
+
+            const avatarText = document.createElement('p')
+            avatarText.classList.add('avatar__text')
+            avatarText.innerHTML = name
+            avatarImage.onload = () => {
+                avatar.appendChild(avatarImage)
+                avatar.appendChild(avatarText)
+            }
+
+            avatarImage.onerror = () => {
+                const avatarImageHolder = document.createElement("p")
+                avatarImageHolder.innerHTML = `${name.split(" ")[0][0]} ${name.split(" ")[1][0]}`
+                avatarImageHolder.classList.add('avatar__image')
+                avatar.appendChild(avatarImageHolder)
+                avatar.appendChild(avatarText)
+                avatarImageHolder.style.background = `#${name.split(" ")[0].charCodeAt(0).toString(16)}${name.split(" ")[1][0].charCodeAt(0).toString(16)}`
+            }
+
+            return avatar
+
+        }
+
+        users.forEach(user => {
+            app.appendChild(generateUserAvatar(user))
+        });
+    </script>
+
+</body>
+
+</html>
